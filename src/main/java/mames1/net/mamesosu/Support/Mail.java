@@ -24,7 +24,6 @@ public abstract class Mail {
     }
 
 
-
     private static void setVerificationCode(int id, String code) {
         MySQL mysql = new MySQL();
         PreparedStatement ps;
