@@ -2,6 +2,7 @@ package mames1.net.mamesosu.Object;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import mames1.net.mamesosu.Event.OpenSupport;
+import mames1.net.mamesosu.Event.ResetEmail;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -10,8 +11,6 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Bot {
 
-    final long GUILD_ID;
-    final long CATEGORY_ID;
     final String TOKEN;
 
     JDA jda;
@@ -19,8 +18,6 @@ public class Bot {
     public Bot() {
         Dotenv dotenv = Dotenv.configure()
                 .load();
-        GUILD_ID = Long.parseLong(dotenv.get("GID"));
-        CATEGORY_ID = Long.parseLong(dotenv.get("CID"));
         TOKEN = dotenv.get("TOKEN");
     }
 
@@ -45,20 +42,9 @@ public class Bot {
                 ).setActivity(
                         Activity.playing("Support <3"))
                 .addEventListeners(
-                        new OpenSupport()
+                        new OpenSupport(),
+                        new ResetEmail()
                 )
                 .build();
-    }
-
-    public JDA getJda() {
-        return jda;
-    }
-
-    public long getGUILD_ID() {
-        return GUILD_ID;
-    }
-
-    public long getCATEGORY_ID() {
-        return CATEGORY_ID;
     }
 }
