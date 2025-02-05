@@ -1,4 +1,4 @@
-package mames1.net.mamesosu;
+package mames1.net.mamesosu.Utils;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
