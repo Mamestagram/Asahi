@@ -16,7 +16,6 @@ public class OpenSupport extends ListenerAdapter {
             StringSelectMenu.Builder builder = StringSelectMenu.create("menu:dropdown");
             builder.addOption("Change Email", "change_email");
             builder.addOption("Change Password", "change_password");
-            builder.addOption("Change Username", "change_username");
             StringSelectMenu menu = builder.build();
 
             e.getChannel().asTextChannel().sendMessageEmbeds(

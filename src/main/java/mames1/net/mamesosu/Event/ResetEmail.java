@@ -77,7 +77,7 @@ public class ResetEmail extends ListenerAdapter {
                             e.getMessage().editMessageEmbeds(
                                     Embed.getApprovedEmailChangeRequest().build()
                             ).setComponents(ActionRow.of(
-                                            Button.success(
+                                            Button.primary(
                                                     "change_email",
                                                     "Change Email"
                                             )

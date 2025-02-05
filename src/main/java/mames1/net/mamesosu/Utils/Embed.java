@@ -36,6 +36,30 @@ public abstract class Embed {
         return eb;
     }
 
+    public static EmbedBuilder getVerificationEmailEmbed(String email) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.addField(
+                "**<:check:1285853854667112480> Verification email has been sent!**",
+                "* To: ``" + email + "``",
+                false
+        );
+        eb.setColor(Color.BLACK);
+
+        return eb;
+    }
+
+    public static EmbedBuilder getApprovedPasswordChangeRequest() {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.addField(
+                "**<:check:1285853854667112480> The password change request has been approved!**",
+                "```Please enter your new password!```",
+                false
+        );
+        eb.setColor(Color.BLACK);
+
+        return eb;
+    }
+
     public static EmbedBuilder getChangedEmailEmbed(String email) {
         EmbedBuilder eb = new EmbedBuilder();
         eb.addField(

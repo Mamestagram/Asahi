@@ -3,10 +3,18 @@ package mames1.net.mamesosu.Support;
 import mames1.net.mamesosu.Object.MySQL;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
+import java.util.Properties;
 import java.util.Random;
 
 public abstract class Mail {
@@ -70,6 +78,44 @@ public abstract class Mail {
             return "err";
         }
     }
+
+   public static boolean sendVerificationMail(String email, String username) throws IOException, FileNotFoundException {
+
+        Properties prop = new Properties();
+
+        prop.load(new FileReader("mail.properties"));
+
+        final String mail = prop.getProperty("mailaddress");
+        final String password = prop.getProperty("password");
+
+        Session session = Session.getInstance(prop, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(mail, password);
+            }
+        });
+
+        try {
+
+            String verificationCode = createVerificationCode(username);
+
+            if(Objects.equals(verificationCode, "err")) return false;
+
+            Message message = new MimeMessage(session);
+
+            message.setFrom(new InternetAddress(mail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setSubject("Verification Code for Account Authentication");
+            message.setText(createVerificationMailFormat(username, verificationCode));
+
+            Transport.send(message);
+
+            return true;
+        } catch (MessagingException e) {
+            System.out.println("Email sent unsuccessfully : " + e);
+            return false;
+        }
+
+   }
 
 
 }
