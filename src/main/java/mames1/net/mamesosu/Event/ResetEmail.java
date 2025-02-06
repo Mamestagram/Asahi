@@ -44,7 +44,7 @@ public class ResetEmail extends ListenerAdapter {
 
                 net.dv8tion.jda.api.interactions.modals.Modal modal = net.dv8tion.jda.api.interactions.modals.Modal.create(
                         "change_email_form",
-                        "Please enter your account information."
+                        "Enter your account information."
                 ).addActionRows(
                         ActionRow.of(userName),
                         ActionRow.of(password)
@@ -109,6 +109,19 @@ public class ResetEmail extends ListenerAdapter {
             try {
                 Ticket ticket = Main.tickets.stream().filter(t -> t.getId() == Integer.parseInt(e.getChannel().getName().replace("ticket-", ""))).findFirst().orElse(null);
                 Connection connection = mysql.getConnection();
+
+                if (ticket == null) {
+                    e.getMessage().editMessageEmbeds(
+                            Embed.getErrorEmbed(
+                            "The process was interrupted because the cache was reset.\n" +
+                                    "We apologize for the inconvenience, but please create a new ticket and try again."
+                    ).build()
+                    ).setComponents().queue();
+
+                    e.reply("Unfortunately, the process was interrupted.").setEphemeral(true).queue();
+                    return;
+                }
+
                 ps = connection.prepareStatement("update users set email = ? where name = ?");
                 ps.setString(1, e.getValue("email").getAsString());
                 ps.setString(2, ticket.getUsername());
@@ -138,7 +151,7 @@ public class ResetEmail extends ListenerAdapter {
                 );
                 net.dv8tion.jda.api.interactions.modals.Modal modal = net.dv8tion.jda.api.interactions.modals.Modal.create(
                         "change_email",
-                        "Please enter your new email."
+                        "Enter your new email."
                 ).addActionRows(
                         ActionRow.of(email)
                 ).build();

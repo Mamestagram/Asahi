@@ -8,12 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 public abstract class Password {
-    // ハッシュ化の仕組みを書く
 
-    public static boolean checkPassword(String password, String hashedPassword) throws NoSuchAlgorithmException {
-
-        // password -> md5
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    public static String getHashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest md5 = MessageDigest.getInstance("MD5");
 
         byte[] rs = md5.digest(password.getBytes());
@@ -26,8 +22,15 @@ public abstract class Password {
             }
             sb.append(Integer.toHexString(i[j]));
         }
-        String md5Password = sb.toString();
-        String encodedPassword = encoder.encode(md5Password);
+        return sb.toString();
+    }
+    // ハッシュ化の仕組みを書く
+
+    public static boolean checkPassword(String password, String hashedPassword) throws NoSuchAlgorithmException {
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        String md5Password = getHashPassword(password);
 
         return encoder.matches(md5Password, hashedPassword);
     }

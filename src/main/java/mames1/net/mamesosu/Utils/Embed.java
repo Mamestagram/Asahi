@@ -60,6 +60,18 @@ public abstract class Embed {
         return eb;
     }
 
+    public static EmbedBuilder getChangedPasswordEmbed() {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.addField(
+                "**<:check:1285853854667112480> Password has been changed!**",
+                "```Your password has been successfully changed.```",
+                false
+        );
+        eb.setColor(Color.BLACK);
+
+        return eb;
+    }
+
     public static EmbedBuilder getChangedEmailEmbed(String email) {
         EmbedBuilder eb = new EmbedBuilder();
         eb.addField(

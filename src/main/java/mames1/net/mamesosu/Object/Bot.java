@@ -3,6 +3,7 @@ package mames1.net.mamesosu.Object;
 import io.github.cdimascio.dotenv.Dotenv;
 import mames1.net.mamesosu.Event.OpenSupport;
 import mames1.net.mamesosu.Event.ResetEmail;
+import mames1.net.mamesosu.Event.ResetPassword;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -43,7 +44,8 @@ public class Bot {
                         Activity.playing("Support <3"))
                 .addEventListeners(
                         new OpenSupport(),
-                        new ResetEmail()
+                        new ResetEmail(),
+                        new ResetPassword()
                 )
                 .build();
     }
