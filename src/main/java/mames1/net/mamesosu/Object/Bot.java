@@ -1,9 +1,7 @@
 package mames1.net.mamesosu.Object;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import mames1.net.mamesosu.Event.OpenSupport;
-import mames1.net.mamesosu.Event.ResetEmail;
-import mames1.net.mamesosu.Event.ResetPassword;
+import mames1.net.mamesosu.Event.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -45,7 +43,9 @@ public class Bot {
                 .addEventListeners(
                         new OpenSupport(),
                         new ResetEmail(),
-                        new ResetPassword()
+                        new ResetPassword(),
+                        new CreateReport(),
+                        new ReportPlayer()
                 )
                 .build();
     }

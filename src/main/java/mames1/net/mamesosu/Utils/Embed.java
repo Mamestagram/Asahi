@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.awt.*;
+import java.util.Date;
 
 public abstract class Embed {
 
@@ -19,67 +20,130 @@ public abstract class Embed {
                 false
         );
         eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
 
         return eb;
 
     }
 
-    public static EmbedBuilder getApprovedEmailChangeRequest() {
+    public static EmbedBuilder getReportEmbed() {
         EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("**Report a Player!**");
+        eb.addField("**<:warning:1285853296833335366> Have you found a player violating the rules?**",
+            "* Select a reason from the dropdown, fill in the form with details, and report anonymously.", false);
+        eb.setColor(Color.BLACK);
+
+        return eb;
+    }
+
+    public static EmbedBuilder getRestrictEmbed(int id, String player, String reason, Member admin) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setAuthor(player, "https://a.mamesosu.net/" + id, "https://mamesosu.net/u/" + id);
+        eb.setTitle("**<:lockkeyhole:1286162425338527795> <" + player + " (" + id + ")> has been restricted!**");
+        eb.setThumbnail("https://a.mamesosu.net/" + id);
+        eb.addField("> <:question:1285854271857889291> **Reason**", "```" + reason + "```", true);
+        eb.addField("> <:peoplegroup:1285955898124140575> **Admin**", admin.getAsMention(), true);
+        eb.setFooter("Restricted at " + new Date().toInstant());
+
+        return eb;
+    }
+
+    public static EmbedBuilder getReportSubmittedEmbed() {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("**Report Submitted!**");
+        eb.setDescription("```Your report has been submitted.```");
+        eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
+
+        return eb;
+    }
+
+    public static EmbedBuilder getReportReceivedEmbed(Member member, String player, String reason, String comment) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("**Report Received!**");
+        eb.setDescription("A report has been submitted by " + member.getAsMention() + "!");
+        eb.addField("Player", "```" + player + "```" , true);
+        eb.addField("Reason", "```" + reason + "```" , true);
+        eb.addField("Comments", "```"  + comment + "```" , true);
+        eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
+
+        return eb;
+    }
+
+    public static EmbedBuilder getAcceptedReportEmbed(String comment, String player) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("**<:check:1285853854667112480> Your report is accepted!**");
         eb.addField(
-                "**<:check:1285853854667112480> The email change request has been approved!**",
-                "```Please enter your new email!```",
-                false
+                "Comment (" +  player + ")", "```" + comment + "```", false
         );
         eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
+
+        return eb;
+    }
+
+    public static EmbedBuilder getDeniedReportEmbed(String comment, String player) {
+        EmbedBuilder eb = new EmbedBuilder();
+        eb.setTitle("**<:X_:1286157493378224191> Your report is denied!**");
+        eb.addField(
+                "Comment (" + player + ")", "```" + comment+ "```", false
+        );
+        eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
+
+        return eb;
+    }
+
+    public static EmbedBuilder getApprovedEmailChangeRequest() {
+        EmbedBuilder eb = new EmbedBuilder();
+
+        eb.setTitle("**The email change request has been approved!**");
+        eb.setDescription("```Please enter your new email!```");
+        eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
 
         return eb;
     }
 
     public static EmbedBuilder getVerificationEmailEmbed(String email) {
         EmbedBuilder eb = new EmbedBuilder();
-        eb.addField(
-                "**<:check:1285853854667112480> Verification email has been sent!**",
-                "* To: ``" + email + "``",
-                false
-        );
+        eb.setTitle("**Verification email has been sent!**");
+        eb.setDescription("```" + email + "```");
         eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
 
         return eb;
     }
 
     public static EmbedBuilder getApprovedPasswordChangeRequest() {
         EmbedBuilder eb = new EmbedBuilder();
-        eb.addField(
-                "**<:check:1285853854667112480> The password change request has been approved!**",
-                "```Please enter your new password!```",
-                false
-        );
+
+        eb.setTitle("**The password change request has been approved!**");
+        eb.setDescription("```Please enter your new password!```");
         eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
 
         return eb;
     }
 
     public static EmbedBuilder getChangedPasswordEmbed() {
         EmbedBuilder eb = new EmbedBuilder();
-        eb.addField(
-                "**<:check:1285853854667112480> Password has been changed!**",
-                "```Your password has been successfully changed.```",
-                false
-        );
+        eb.setTitle("**Password has been changed!**");
+        eb.setDescription("```Your password has been successfully changed.```");
         eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
 
         return eb;
     }
 
     public static EmbedBuilder getChangedEmailEmbed(String email) {
         EmbedBuilder eb = new EmbedBuilder();
-        eb.addField(
-                "**<:check:1285853854667112480> Email has been changed!**",
-                "```" + email + "```",
-                false
-        );
+
+        eb.setTitle("**Email has been changed!**");
+        eb.setDescription("```" + email + "```");
         eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
 
         return eb;
     }
@@ -87,8 +151,10 @@ public abstract class Embed {
     public static EmbedBuilder getErrorEmbed(String message) {
 
         EmbedBuilder eb = new EmbedBuilder();
-        eb.addField("**<:warning:1285853296833335366> Error**", "```" + message + "```", false);
+        eb.setTitle("**Error**");
+        eb.setDescription("```" + message + "```");
         eb.setColor(Color.BLACK);
+        eb.setTimestamp(new Date().toInstant());
 
         return eb;
     }
