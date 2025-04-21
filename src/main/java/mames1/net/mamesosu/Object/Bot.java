@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Bot {
@@ -38,7 +40,12 @@ public class Bot {
                         CacheFlag.VOICE_STATE,
                         CacheFlag.STICKER,
                         CacheFlag.SCHEDULED_EVENTS
-                ).setActivity(
+                ).setMemberCachePolicy(
+                        MemberCachePolicy.ALL
+                ).setChunkingFilter(
+                        ChunkingFilter.ALL
+                )
+                .setActivity(
                         Activity.playing("Support <3"))
                 .addEventListeners(
                         new OpenSupport(),
