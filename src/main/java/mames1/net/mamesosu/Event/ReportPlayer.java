@@ -95,6 +95,7 @@ public class ReportPlayer extends ListenerAdapter {
     public void onModalInteraction(ModalInteractionEvent e) {
 
         if (e.getModalId().equals("report_player")) {
+            MySQL mySQL = new MySQL();
             Report report = Main.reports.stream().filter(r -> r.getReporter() == e.getMember()).findFirst().orElse(null);
 
             if (report == null) {
@@ -102,6 +103,26 @@ public class ReportPlayer extends ListenerAdapter {
                         Embed.getErrorEmbed("Unexpected error occurred. Please try again.").build()
                 ).setEphemeral(true).queue();
                 return;
+            }
+
+            try {
+                Connection connection = mySQL.getConnection();
+                PreparedStatement ps;
+                ResultSet result;
+                ps = connection.prepareStatement(
+                        "select * from users where name = ?"
+                );
+                ps.setString(1, e.getValue("player").getAsString());
+                result = ps.executeQuery();
+
+                if(!result.next()) {
+                        e.replyEmbeds(
+                            Embed.getErrorEmbed("The entered player could not be found. Please enter a valid username.").build()
+                    ).setEphemeral(true).queue();
+                    return;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
 
             e.replyEmbeds(Embed.getReportSubmittedEmbed().build()).setEphemeral(true).queue();
