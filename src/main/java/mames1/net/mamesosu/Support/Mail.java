@@ -20,12 +20,24 @@ import java.util.Random;
 public abstract class Mail {
 
     private static String createVerificationMailFormat(String username, String code) {
-        return username + ", Hello!\n" +
-                "Thank you so much for playing with Mamestagram!\n\n" +
+        return "Hello, " + username + "\n" +
+                "Thank you for playing on Mamestagram.\n" +
                 "You have performed an action that requires account verification.\n\n" +
                 "Your verification code is: " + code + "\n" +
                 "Please use this code to verify your account.\n\n" +
                 "If you do not recognize this request, your account may have been accessed fraudulently. Please contact our support team immediately.\n\n" +
+                "--------------------------------------\n" +
+                "Mamestagram: https://web.mamesosu.net/\n" +
+                "--------------------------------------";
+    }
+
+    private static String createVerifyLoginMailFormat(String username, String url) {
+        return "Hello, " + username + "\n" +
+                "Thank you for playing on Mamestagram.\n" +
+                "We’ve detected a login attempt to your account from a client that differs from your usual one.\n" +
+                "If this was you, please click the link below to approve the login and try again.\n" +
+                "If you don’t recognize this activity, please change your password immediately." +
+                "\n\n" + url + "\n\n" +
                 "--------------------------------------\n" +
                 "Mamestagram: https://web.mamesosu.net/\n" +
                 "--------------------------------------";

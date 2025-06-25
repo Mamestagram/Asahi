@@ -1,10 +1,13 @@
 package mames1.net.mamesosu.Object;
 
+import lombok.Getter;
 import net.dv8tion.jda.api.entities.Member;
 
 public class Report {
 
+    @Getter
     private Member reporter;
+    @Getter
     private String reason;
     private String description;
 
@@ -14,11 +17,4 @@ public class Report {
         this.description = description;
     }
 
-    public String getReason() {
-        return reason;
-    }
-
-    public Member getReporter() {
-        return reporter;
-    }
 }

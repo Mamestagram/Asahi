@@ -1,9 +1,16 @@
 package mames1.net.mamesosu.Object;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class Ticket {
 
+    @Getter
     int id;
+    @Getter
+    @Setter
     String email;
+    @Getter
     String username;
     String password;
 
@@ -14,31 +21,4 @@ public class Ticket {
         this.password = password;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
